@@ -5,18 +5,12 @@ from collections.abc import Collection
 from typing import TYPE_CHECKING
 
 from attrs import define, field
+from cloudshell.cli.configurator import AbstractModeConfigurator
+from cloudshell.cli.factory.session_factory import SessionFactory
+from cloudshell.cli.service.command_mode_helper import CommandModeHelper
 from typing_extensions import Self
 
-from cloudshell.cli.configurator import AbstractModeConfigurator
-from cloudshell.cli.factory.session_factory import (
-    SessionFactory,
-)
-from cloudshell.cli.service.command_mode_helper import CommandModeHelper
-
-from .command_modes import (
-    ConfigCommandMode,
-    DefaultCommandMode,
-)
+from .command_modes import ConfigCommandMode, DefaultCommandMode
 
 if TYPE_CHECKING:
     from cloudshell.cli.service.cli import CLI

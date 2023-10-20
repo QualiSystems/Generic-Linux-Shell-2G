@@ -1,8 +1,5 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-from _package.autoload.linux_resource import LinuxResourceModel
-from _package.cli.cli_configurator import GenericLinuxCliConfigurator
-from _package.resource_model import LinuxResourceConfig
 from cloudshell.cli.service.cli import CLI
 from cloudshell.cli.service.session_pool_manager import SessionPoolManager
 from cloudshell.shell.core.driver_utils import GlobalLock
@@ -12,9 +9,12 @@ from cloudshell.shell.core.session.logging_session import LoggingSessionContext
 from cloudshell.shell.flows.command.basic_flow import RunCommandFlow
 from cloudshell.shell.standards.resource_config_generic_models import GenericCLIConfig
 
+from _package.autoload.linux_resource import LinuxResourceModel
+from _package.cli.cli_configurator import GenericLinuxCliConfigurator
+from _package.resource_model import LinuxResourceConfig
 
-class GenericLinuxOSShellDriver(
-    ResourceDriverInterface):
+
+class GenericLinuxOSShellDriver(ResourceDriverInterface):
     SHELL_NAME = "Generic Linux OS Shell 2G"
 
     def __init__(self):
@@ -45,13 +45,8 @@ class GenericLinuxOSShellDriver(
         with LoggingSessionContext(context) as logger:
             api = CloudShellSessionContext(context).get_api()
 
-            resource_config = GenericCLIConfig.from_context(
-                context, api
-            )
-            resource_model = LinuxResourceModel.from_resource_config(
-                resource_config
-            )
-            # resource_model.connect_port(resource_model.entities.Port(index="0"))
+            resource_config = GenericCLIConfig.from_context(context, api)
+            resource_model = LinuxResourceModel.from_resource_config(resource_config)
             logger.info("Autoload started")
             response = resource_model.build()
             logger.info("Autoload completed")
@@ -72,7 +67,9 @@ class GenericLinuxOSShellDriver(
                 context,
                 api,
             )
-            cli_configurator = GenericLinuxCliConfigurator.from_config(resource_config, logger, self._cli)
+            cli_configurator = GenericLinuxCliConfigurator.from_config(
+                resource_config, logger, self._cli
+            )
 
             run_command_flow = RunCommandFlow(cli_configurator)
             run_command_flow.logger = logger
@@ -94,14 +91,14 @@ class GenericLinuxOSShellDriver(
                 context,
                 api,
             )
-            cli_configurator = GenericLinuxCliConfigurator.from_config(resource_config, logger, self._cli)
+            cli_configurator = GenericLinuxCliConfigurator.from_config(
+                resource_config, logger, self._cli
+            )
 
             run_command_flow = RunCommandFlow(cli_configurator)
             run_command_flow.logger = logger
 
-            result_str = run_command_flow.run_custom_config_command(
-                custom_command
-            )
+            result_str = run_command_flow.run_custom_config_command(custom_command)
             return result_str
 
     def health_check(self, context):

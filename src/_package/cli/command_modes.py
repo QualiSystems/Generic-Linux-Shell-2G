@@ -1,13 +1,16 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 from __future__ import annotations
+
 from collections import OrderedDict
 from typing import TYPE_CHECKING
 
 from cloudshell.cli.service.command_mode import CommandMode
 
 if TYPE_CHECKING:
-    from cloudshell.shell.standards.resource_config_generic_models import GenericCLIConfig
+    from cloudshell.shell.standards.resource_config_generic_models import (
+        GenericCLIConfig,
+    )
 
 
 class DefaultCommandMode(CommandMode):
@@ -35,10 +38,10 @@ class DefaultCommandMode(CommandMode):
     def enter_error_map(self) -> OrderedDict:
         return OrderedDict([(r"[Ee]rror:", "Command error")])
 
-    def exit_action_map(self)->OrderedDict:
+    def exit_action_map(self) -> OrderedDict:
         return OrderedDict()
 
-    def exit_error_map(self)-> OrderedDict:
+    def exit_error_map(self) -> OrderedDict:
         return OrderedDict([(r"[Ee]rror:", "Command error")])
 
 
@@ -61,7 +64,7 @@ class ConfigCommandMode(CommandMode):
             use_exact_prompt=True,
         )
 
-    def enter_action_map(self)->OrderedDict:
+    def enter_action_map(self) -> OrderedDict:
         return OrderedDict(
             [
                 (
@@ -75,13 +78,13 @@ class ConfigCommandMode(CommandMode):
             ]
         )
 
-    def enter_error_map(self)->OrderedDict:
+    def enter_error_map(self) -> OrderedDict:
         return OrderedDict([(r"[Ee]rror:", "Command error")])
 
-    def exit_action_map(self)->OrderedDict:
+    def exit_action_map(self) -> OrderedDict:
         return OrderedDict()
 
-    def exit_error_map(self)->OrderedDict:
+    def exit_error_map(self) -> OrderedDict:
         return OrderedDict([(r"[Ee]rror:", "Command error")])
 
 

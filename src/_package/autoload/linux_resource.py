@@ -1,15 +1,22 @@
-from cloudshell.shell.standards.autoload_generic_models import GenericResourceModel, GenericPort, BasePort
+from cloudshell.shell.standards.autoload_generic_models import (
+    BasePort,
+    GenericPort,
+    GenericResourceModel,
+)
 
 
 class LinuxResourcePort(BasePort):
     _RESOURCE_MODEL = "ResourcePort"
 
+
 class LinuxResourceModel(GenericResourceModel):
-    SUPPORTED_FAMILY_NAMES = ['CS_Resource', 'CS_RealServer']
+    SUPPORTED_FAMILY_NAMES = ["CS_Resource", "CS_RealServer"]
+
     @property
     def entities(self):
         class _entities:
             Port = LinuxResourcePort
+
         return _entities
 
     def connect_port(self, port: GenericPort) -> None:

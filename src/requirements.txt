@@ -1,0 +1,5 @@
+cloudshell-shell-standards~=2.0.4
+cloudshell-shell-flows~=3.0.0
+cloudshell-cli~=5.0.1
+cloudshell-automation-api>=9.2
+cloudshell-shell-core~=6.0.1

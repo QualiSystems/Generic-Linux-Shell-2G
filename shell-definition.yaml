@@ -1,0 +1,101 @@
+tosca_definitions_version: tosca_simple_yaml_1_0
+
+metadata:
+  template_name: Generic Linux OS Shell 2G
+  template_author: Quali
+  template_version: 1.0.7
+  template_icon: shell-icon.png
+
+description: >
+  This Shell supports Linux OS
+
+imports:
+  - cloudshell_standard: cloudshell_resource_standard_2_0_3.yaml
+  - cloudshell_types: cloudshell_types_1_1_1.yaml
+
+node_types:
+
+# ----------------- CLOUDSHELL NODES -----------------#
+  cloudshell.nodes.LinuxDevice:
+    derived_from:  cloudshell.device.LinuxOS
+    capabilities:
+      cloudshell_family:
+        type: cloudshell.families.CS_RealServer
+# ----------------- ------------------ -----------------#
+
+  cloudshell.device.LinuxOS:
+    derived_from: cloudshell.nodes.GenericResource
+    properties:
+      OS Version:
+        description: Version of the Operating System.
+        type: string
+        tags: [setting, abstract_filter, read_only]
+      VRF Management Name:
+        description: The default VRF Management to use if configured in the network and no such input was passed to the Save or Restore command.
+        type: string
+        tags: [configuration]
+
+
+  vendor.Generic Linux OS 2G:
+    derived_from: cloudshell.nodes.LinuxDevice
+    capabilities:
+      concurrent_execution:
+        type: cloudshell.capabilities.SupportConcurrentCommands
+      auto_discovery_capability:
+        type: cloudshell.capabilities.AutoDiscovery
+        properties:
+          enable_auto_discovery:
+            type: boolean
+            default: true
+          auto_discovery_description:
+            type: string
+            default: Describe the auto discovery
+          inventory_description:
+            type: string
+            default: Describe the resource shell template
+          User:
+            description: User with administrative privileges
+            type: string
+          Password:
+            description: The password is required by some CLI protocols such as Telnet and is required according to the device configuration.
+            type: cloudshell.datatypes.Password
+          Enable Password:
+            description: The enable password is required by some CLI protocols such as Telnet and is required according to the device configuration.
+            type: cloudshell.datatypes.Password
+          Sessions Concurrency Limit:
+            description: The maximum number of concurrent sessions that the driver will open to the device. Default is 1 (no concurrency).
+            type: integer
+            default: 1
+          Power Management:
+            type: boolean
+            default: true
+            description: Used by the power management orchestration, if enabled, to determine whether to automatically manage the device power status. Enabled by default.
+          VRF Management Name:
+            description: The default VRF Management to use if configured in the network and no such input was passed to the Save or Restore command.
+            type: string
+          Console Server IP Address:
+            description: The IP address of the console server, in IPv4 format.
+            type: string
+          Console User:
+            type: string
+          Console Port:
+            description: The port on the console server, usually TCP port, which the device is associated with.
+            type: integer
+            default: 0
+          Console Password:
+            type: cloudshell.datatypes.Password
+          CLI Connection Type:
+            type: string
+            description: The CLI connection type that will be used by the driver. Possible values are Auto, Console, SSH, Telnet and TCP. If Auto is selected the driver will choose the available connection type automatically. Default value is Auto.
+            default: Auto
+          CLI TCP Port:
+            description: TCP Port to user for CLI connection. If kept empty a default CLI port will be used based on the chosen protocol, for example Telnet will use port 23.
+            type: Numeric
+            default: 0
+    artifacts:
+      icon:
+        file: shell-icon.png
+        type: tosca.artifacts.File
+      driver:
+        file: Generic Linux OS Shell 2G.zip
+        type: tosca.artifacts.File

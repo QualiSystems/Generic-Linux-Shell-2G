@@ -2,15 +2,21 @@ from __future__ import annotations
 
 import logging
 from collections.abc import Collection
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar
 
 from attrs import define, field
 from cloudshell.cli.configurator import AbstractModeConfigurator
-from cloudshell.cli.factory.session_factory import SessionFactory
+from cloudshell.cli.factory.session_factory import (
+    CloudInfoAccessKeySessionFactory,
+    GenericSessionFactory,
+    SessionFactory,
+)
 from cloudshell.cli.service.command_mode_helper import CommandModeHelper
+from cloudshell.cli.session.telnet_session import TelnetSession
 from typing_extensions import Self
 
 from .command_modes import ConfigCommandMode, DefaultCommandMode
+from .ssh_session import LinuxSSHSession
 
 if TYPE_CHECKING:
     from cloudshell.cli.service.cli import CLI
@@ -20,6 +26,10 @@ if TYPE_CHECKING:
 
 @define
 class GenericLinuxCliConfigurator(AbstractModeConfigurator):
+    REGISTERED_SESSIONS: ClassVar[tuple[SessionFactory]] = (
+        CloudInfoAccessKeySessionFactory(LinuxSSHSession),
+        GenericSessionFactory(TelnetSession),
+    )
 
     modes: T_COMMAND_MODE_RELATIONS = field(init=False)
 

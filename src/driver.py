@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 from cloudshell.cli.service.cli import CLI
 from cloudshell.cli.service.session_pool_manager import SessionPoolManager
 from cloudshell.shell.core.driver_utils import GlobalLock
@@ -97,7 +98,6 @@ class GenericLinuxOSShellDriver(ResourceDriverInterface):
 
             run_command_flow = RunCommandFlow(cli_configurator)
             run_command_flow.logger = logger
-
             result_str = run_command_flow.run_custom_config_command(custom_command)
             return result_str
 
